@@ -32,13 +32,11 @@ module Lecture1
     , lowerAndGreater
     ) where
 
-import Data.List
-
 {- | Specify the type signature of the following function. Think about
 its behaviour, possible types for the function arguments and write the
 type signature explicitly.
 -}
-makeSnippet :: Int -> String -> [Char]
+makeSnippet :: Int -> String -> String
 
 makeSnippet limit text = take limit ("Description: " ++ text) ++ "..."
 
@@ -71,10 +69,8 @@ sumOfSquares x y = (x * x) + (y * y)
 -}
 -- DON'T FORGET TO SPECIFY THE TYPE IN HERE
 lastDigit :: Int -> Int
-toPositive :: Int -> Int
 
-toPositive n = if (n > 0) then n else negate n
-lastDigit n = mod (toPositive n) 10
+lastDigit n = mod (abs n) 10
 
 {- | Write a function that takes three numbers and returns the
 difference between the biggest number and the smallest one.
@@ -90,10 +86,8 @@ function.
 -}
 
 minmax :: Int -> Int -> Int -> Int
-sortAsc :: [Int] -> [Int]
 
-sortAsc l =  Data.List.sort l
-minmax x y z = last (sortAsc [x, y, z]) - head (sortAsc [x, y, z])
+minmax x y z = maximum [x, y, z] - minimum [x, y, z]
 
 {- | Implement a function that takes a string, start and end positions
 and returns a substring of a given string from the start position to
@@ -149,17 +143,17 @@ and lower than 6 elements (4, 5, 6, 7, 8 and 9).
 -}
 
 getMinMax :: Int -> Int -> Int -> [Int] -> [Int]
-getMinMax min max n list = go min max list
+getMinMax minVal maxVal n list = go minVal maxVal list
   where
     go :: Int -> Int -> [Int] -> [Int]
-    go min max list =
+    go minVal maxVal list =
         if null list
-        then [min, max]
+        then [minVal, maxVal]
         else if head list > n
-             then go min (max + 1) (tail list)
+             then go minVal (maxVal + 1) (tail list)
              else if head list < n
-                  then go (min + 1) max (tail list)
-                  else go min max (tail list)
+                  then go (minVal + 1) maxVal (tail list)
+                  else go minVal maxVal (tail list)
 
 lowerAndGreater :: Int -> [Int] -> String
 lowerAndGreater n list =
